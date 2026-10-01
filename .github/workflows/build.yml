@@ -29,6 +29,7 @@ jobs:
         pip install python-osc pyinstaller
 
     - name: Build with PyInstaller
+      working-directory: ./src
       run: |
         pyinstaller --onefile --noconsole --name VMC_Position_Proxy main.py
 
