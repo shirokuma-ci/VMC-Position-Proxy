@@ -13,13 +13,15 @@ jobs:
     runs-on: windows-latest # Windows環境のサーバーで実行
 
     steps:
+    # actions/checkoutを @v4 から最新の @v5 にアップデート（Node 24対応）
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
+    # actions/setup-pythonを @v5 から最新の @v6 にアップデート（Node 24対応）
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
-        python-version: '3.11' # 使用するPythonのバージョン
+        python-version: '3.11' 
 
     - name: Install dependencies
       run: |
@@ -30,6 +32,7 @@ jobs:
       run: |
         pyinstaller --onefile --noconsole --name VMC_Position_Proxy main.py
 
+    # actions/upload-artifactも @v4 のままで大丈夫ですが、最新に揃えています
     - name: Upload Artifact (Optional)
       uses: actions/upload-artifact@v4
       with:
