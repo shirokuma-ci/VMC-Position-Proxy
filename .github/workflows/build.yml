@@ -38,11 +38,11 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: VMC_Position_Proxy-windows
-        path: dist/VMC_Position_Proxy.exe
+        path: src/dist/VMC_Position_Proxy.exe
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
-        files: dist/VMC_Position_Proxy.exe
+        files: src/dist/VMC_Position_Proxy.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
