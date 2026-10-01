@@ -1,0 +1,44 @@
+name: Build and Release Executable
+
+on:
+  push:
+    tags:
+      - 'v*' # 「v1.0」などのタグがPushされたときに起動
+
+permissions:
+  contents: write # リリースにファイルを添付する権限
+
+jobs:
+  build-windows:
+    runs-on: windows-latest # Windows環境のサーバーで実行
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11' # 使用するPythonのバージョン
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install python-osc pyinstaller
+
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --onefile --noconsole --name VMC_Position_Proxy main.py
+
+    - name: Upload Artifact (Optional)
+      uses: actions/upload-artifact@v4
+      with:
+        name: VMC_Position_Proxy-windows
+        path: dist/VMC_Position_Proxy.exe
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: dist/VMC_Position_Proxy.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
